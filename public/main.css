@@ -87,6 +87,7 @@ body {
   height: 35rem;
   -webkit-box-shadow: 1.2rem 1.2rem 2rem var(--color-grey-dark-3);
           box-shadow: 1.2rem 1.2rem 2rem var(--color-grey-dark-3);
+  position: relative;
 }
 
 .card__count-number {
@@ -97,5 +98,41 @@ body {
   color: white;
   margin: 1.5rem;
   border: solid 0.5rem var(--color-grey-light-1);
+}
+
+.card__count-total {
+  text-align: center;
+  background-color: #66cfff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #3d3d3d;
+  margin: 1.5rem;
+  text-transform: capitalize;
+}
+
+.card__button {
+  text-decoration: none;
+  background-color: #3be2ff;
+  border: outset 0.5rem #00c6e0;
+  padding: 1rem 2rem;
+  color: var(--color-grey-dark-1);
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-weight: 550;
+  font-size: 1.75rem;
+  text-transform: uppercase;
+}
+
+.card__button:hover {
+  -webkit-box-shadow: 1rem 1rem 2rem var(--color-grey-dark-1);
+          box-shadow: 1rem 1rem 2rem var(--color-grey-dark-1);
+}
+
+.card__button:active {
+  -webkit-box-shadow: 0.5rem 0.5rem 1rem var(--color-grey-dark-1);
+          box-shadow: 0.5rem 0.5rem 1rem var(--color-grey-dark-1);
 }
 /*# sourceMappingURL=main.css.map */

@@ -1,8 +1,10 @@
 .card {
-    background-color: hsl(199, 100%, 50%);    
+    background-color: hsl(199, 100%, 50%);
     width: 20rem;
     height: 35rem;
     box-shadow: 1.2rem 1.2rem 2rem var(--color-grey-dark-3);
+    position: relative;
+
     &__count-number {
         text-align: center;
         background-color: hsl(199, 100%, 70%);
@@ -11,5 +13,43 @@
         color: white;
         margin: 1.5rem;
         border: solid 0.5rem var(--color-grey-light-1);
+    }
+
+    &__count-total {
+        text-align: center;
+        background-color: hsl(199, 100%, 70%);
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #3d3d3d;
+        margin: 1.5rem;
+        text-transform: capitalize;
+    }
+
+    &__button {
+        text-decoration: none;
+
+        background-color: #3be2ff;
+        border: outset 0.5rem hsl(187, 100%, 44%);
+        padding: 1rem 2rem;
+        color: var(--color-grey-dark-1);
+        position: absolute;
+
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        font-weight: 550;
+        font-size: 1.75rem;
+        text-transform: uppercase;
+
+        &:hover {
+            // background-color: red;
+            box-shadow: 1rem 1rem 2rem var(--color-grey-dark-1);
+        }
+
+        &:active {
+            // background-color: red;
+            box-shadow: .5rem .5rem 1rem var(--color-grey-dark-1);
+        }
     }
 }
