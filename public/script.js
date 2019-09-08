@@ -13,9 +13,12 @@ button_array[0].onclick = function () {
 
     postData(base_url + '/countdown', { countdown: true })
         .then(data => {
-            // data: { count: 1}
-            console.log("TCL: button_array[0].onclick -> data.count", data.count)
+            // data: { count: 5, last_hit_datetime: "2019-09-08 19:36:59", total_countdowns: 6}
+
+            // Set the labels accordingly
             count_array[0].innerHTML = parseInt(data.count)
+            total_countdowns_array[0].innerHTML = parseInt(data.total_countdowns)
+            last_hit_date_array[0].innerHTML = data.last_hit_datetime
         })
         .catch(error => console.error(error));
 }
