@@ -4,12 +4,13 @@
   "description": "A test WebApp to do collective countdowns",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon -i db.json index.js"
   },
   "author": "Nilay Savant",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "lowdb": "^1.0.0",
     "morgan": "^1.9.1"
   }
 }
