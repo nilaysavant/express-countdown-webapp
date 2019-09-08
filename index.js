@@ -12,6 +12,20 @@ const PORT = 3000 // Server Port Variable
 
 const app = express() // init express app
 
+app.use(morgan('dev')) // a logger for express
+
+// to parse the body of post requests -> bodyParser :
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// Set public folder
+app.use(express.static(path.join(__dirname, 'public')))
+
+// handle exceptions and errors
+app.use(logErrors)
+app.use(clientErrorHandler)
+app.use(errorHandler)
+
 const initialCount = 10
 
 // EXCEPTION HANDLING FUNCTIONS
@@ -111,23 +125,4 @@ const main = async function () {
 
 
 // MAIN EXECUTION (Do not remove!) -----------------------------------------------------
-try {
-  app.use(morgan('dev')) // a logger for express
-
-  // to parse the body of post requests -> bodyParser :
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
-
-  // Set public folder
-  app.use(express.static(path.join(__dirname, 'public')))
-
-  // handle exceptions and errors
-  app.use(logErrors)
-  app.use(clientErrorHandler)
-  app.use(errorHandler)
-
-  // execute main
-  main()
-} catch (error) {
-  console.log("TCL: error", error)
-}
+main()
