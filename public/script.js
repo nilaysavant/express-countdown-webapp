@@ -7,13 +7,16 @@ let total_countdowns_array = document.getElementsByClassName("total-countdowns")
 let last_hit_date_array = document.getElementsByClassName("last-hit-date")
 let button_array = document.getElementsByClassName("card__button")
 
+// count down btn on click event
 button_array[0].onclick = function () {
     console.log("clickkkk")
 
     postData(base_url + '/countdown', { countdown: true })
         .then(data => {
-
-        }) 
+            // data: { count: 1}
+            console.log("TCL: button_array[0].onclick -> data.count", data.count)
+            count_array[0].innerHTML = parseInt(data.count)
+        })
         .catch(error => console.error(error));
 }
 
