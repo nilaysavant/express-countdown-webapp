@@ -82,6 +82,7 @@ body {
 }
 
 .card {
+  margin: 1vw;
   background-color: #00aeff;
   width: 20rem;
   height: 35rem;
