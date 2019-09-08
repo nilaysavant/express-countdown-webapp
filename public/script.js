@@ -7,6 +7,10 @@ let total_countdowns_array = document.getElementsByClassName("total-countdowns")
 let last_hit_date_array = document.getElementsByClassName("last-hit-date")
 let button_array = document.getElementsByClassName("card__button")
 
+// Since page views is singular so assign 0 index(TODO: add seprate api for pageview handling)
+let page_views = document.getElementsByClassName("footer__page-views-number")[0]
+
+
 /**
  * looping throught all countdown cards
  * and updating them automatically on page load
@@ -17,12 +21,15 @@ for (let i = 0; i < count_array.length; i++) {
      */
     postData(base_url + '/countdown', { countdown: false })
         .then(data => {
-            // data: { count: 5, last_hit_datetime: "2019-09-08 19:36:59", total_countdowns: 6}
+            // data: { count: 5, last_hit_datetime: "2019-09-08 19:36:59", total_countdowns: 6, page_views: 12}
 
             // Set the labels accordingly
             count_array[i].innerHTML = parseInt(data.count)
             total_countdowns_array[i].innerHTML = parseInt(data.total_countdowns)
             last_hit_date_array[i].innerHTML = data.last_hit_datetime
+
+            // TODO: add seperate api for pageviews handling
+            page_views.innerHTML = parseInt(data.page_views)
         })
         .catch(error => console.error(error));
 }
