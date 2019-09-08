@@ -66,6 +66,7 @@ const main = async function () {
     count: initialCount, // Set Countdown Count = 100 initially
     total_countdowns: 0, // For total countdowns to 0 tracking
     last_hit_datetime: getUTCDateTime(), // To store the datetime of last countdown btn hit
+    page_views: 0, // To track page Views
   }).write()
 
 
@@ -130,7 +131,33 @@ const main = async function () {
                 }
               })
           })
-      } else {
+      } else if (countdown_body != undefined && countdown_body === false) {
+        /**
+         * This part supplies the initial data on every page load
+         * ie. send {countdown: false} from frontend
+         */
+        db.update('page_views', n => n + 1)
+          .write()
+          .then(() => {
+            // get current count
+            count = db.get('count').value()
+            // get total countdowns
+            total_countdowns = db.get('total_countdowns').value()
+            // get last hit date
+            last_hit_datetime = db.get('last_hit_datetime').value()
+            // get page views
+            let page_views = db.get('page_views').value()
+
+            // Send count data
+            res.status(200).json({
+              count: count,
+              total_countdowns: total_countdowns,
+              last_hit_datetime: last_hit_datetime,
+              page_views: page_views,
+            })
+          })
+      }
+      else {
         res.status(400).send("Error! Check request body!")
       }
     } catch (error) {
