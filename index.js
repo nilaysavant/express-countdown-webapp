@@ -26,15 +26,23 @@ app.use(logErrors)
 app.use(clientErrorHandler)
 app.use(errorHandler)
 
+// Var holds the starting count ie. from where it will count down
 const initialCount = 10
 
+/**
+ * Function returns UTC date time in yyyy-mm-dd hh:mm:ss
+ */
+const getUTCDateTime = () => {
+  return new Date().toISOString().replace('T', ' ').substr(0, 19)
+}
+
 // EXCEPTION HANDLING FUNCTIONS
-function logErrors (err, req, res, next) {
+function logErrors(err, req, res, next) {
   console.error(err.stack)
   next(err)
 }
 
-function clientErrorHandler (err, req, res, next) {
+function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
     res.status(500).json({ error: 'Something failed!' })
   } else {
@@ -42,7 +50,7 @@ function clientErrorHandler (err, req, res, next) {
   }
 }
 
-function errorHandler (err, req, res, next) {
+function errorHandler(err, req, res, next) {
   res.status(500).json({ error: 'Something failed!' })
 }
 
@@ -56,7 +64,8 @@ const main = async function () {
   // Set some defaults (required if your JSON file is empty)
   db.defaults({
     count: initialCount, // Set Countdown Count = 100 initially
-    total_countdowns: 0, // For total countdown to 0 tracking
+    total_countdowns: 0, // For total countdowns to 0 tracking
+    last_hit_datetime: getUTCDateTime(), // To store the datetime of last countdown btn hit
   }).write()
 
 
@@ -71,38 +80,55 @@ const main = async function () {
       let countdown_body = req.body.countdown
       console.log("TCL: countdown_body", countdown_body)
 
-      let count = 0 // var to store cout
+      let count = 0 // var to store current count
+      let total_countdowns = 0 // var to total countdown hits to 0
+      let last_hit_datetime = 0 // var to store last hit datetime
 
       if (countdown_body != undefined && countdown_body === true) {
         // decrement count if countdown is true
         db.update('count', n => n - 1)
           .write()
           .then(() => {
-            // get new value of count
-            count = db.get('count').value()
-            if (count <= 0) {
-              // Update total countdowns after every 0 hit
-              db.update('total_countdowns', n => n + 1)
-                .write()
-                .then(() => {
-                  // reset count to 0
-                  db.set('count', initialCount)
+            // Update the last hit datetime to current datetime
+            db.set('last_hit_datetime', getUTCDateTime())
+              .write()
+              .then(() => {
+                // get new value of count
+                count = db.get('count').value()
+                if (count <= 0) {
+                  // Update total countdowns after every 0 hit
+                  db.update('total_countdowns', n => n + 1)
                     .write()
                     .then(() => {
-                      // Send count
-                      res.status(200).json({
-                        count: count
-                      })
+                      // reset count to 0
+                      db.set('count', initialCount)
+                        .write()
+                        .then(() => {
+                          // get total countdowns
+                          total_countdowns = db.get('total_countdowns').value()
+                          // get last hit date
+                          last_hit_datetime = db.get('last_hit_datetime').value()
+                          // Send count data
+                          res.status(200).json({
+                            count: count,
+                            total_countdowns: total_countdowns,
+                            last_hit_datetime: last_hit_datetime,
+                          })
+                        })
                     })
-                })
-            } else {
-              // Send count
-              res.status(200).json({
-                count: count
+                } else {
+                  // get total countdowns
+                  total_countdowns = db.get('total_countdowns').value()
+                  // get last hit date
+                  last_hit_datetime = db.get('last_hit_datetime').value()
+                  // Send count data
+                  res.status(200).json({
+                    count: count,
+                    total_countdowns: total_countdowns,
+                    last_hit_datetime: last_hit_datetime,
+                  })
+                }
               })
-            }
-
-
           })
       } else {
         res.status(400).send("Error! Check request body!")
