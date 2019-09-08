@@ -4,7 +4,7 @@
   "description": "A test WebApp to do collective countdowns",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -i db.json index.js"
+    "start": "nodemon -i database/db.json index.js"
   },
   "author": "Nilay Savant",
   "license": "ISC",
